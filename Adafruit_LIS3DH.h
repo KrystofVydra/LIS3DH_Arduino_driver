@@ -385,6 +385,10 @@ public:
   float y_g; /**< y_g axis value (calculated by selected range) */
   float z_g; /**< z_g axis value (calculated by selected range) */
 
+  uint8_t customRead(uint8_t readReg);
+
+  void customWrite(uint8_t writeReg, uint8_t writeData);
+
 private:
   TwoWire *I2Cinterface;
   SPIClass *SPIinterface;
