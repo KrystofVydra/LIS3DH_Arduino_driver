@@ -186,12 +186,45 @@ void Adafruit_LIS3DH::read(void) {
   uint8_t buffer[6];
   xl_data.read(buffer, 6);
 
-  x = buffer[0];
-  x |= ((uint16_t)buffer[1]) << 8;
-  y = buffer[2];
-  y |= ((uint16_t)buffer[3]) << 8;
-  z = buffer[4];
-  z |= ((uint16_t)buffer[5]) << 8;
+     uint16_t combinedValue = ((uint16_t)buffer[1] << 8) | buffer[0];
+
+    // Mask out the unused bits
+    uint16_t maskedValue = combinedValue & 0xFFF;
+
+  // x = buffer[0];
+  // x |= ((uint16_t)buffer[1]) << 8;
+  // y = buffer[2];
+  // y |= ((uint16_t)buffer[3]) << 8;
+  // z = buffer[4];
+  // z |= ((uint16_t)buffer[5]) << 8;
+
+  x = ((int16_t)buffer[1] << 8) | buffer[0];
+  y = ((int16_t)buffer[3] << 8) | buffer[2];
+  z = ((int16_t)buffer[5] << 8) | buffer[4];
+  
+    // if (x & 0x800) {
+    //     x |= 0xF000;
+    // }
+    //     if (y & 0x800) {
+    //     y |= 0xF000;
+    // }
+
+    // if (z & 0x800) {
+    //     z |= 0xF000;
+    // }
+
+
+  // x = x / 64;
+  // y = y / 64;
+  // z = z / 64;
+
+  // x = x / 16;
+  // y = y / 16;
+  // z = z / 16;
+
+  // x = buffer[1];
+  // y = buffer[3];
+  // z = buffer[5];
 
   uint8_t range = getRange();
 
@@ -465,4 +498,17 @@ void Adafruit_LIS3DH::getSensor(sensor_t *sensor) {
   sensor->max_value = 0;
   sensor->min_value = 0;
   sensor->resolution = 0;
+}
+
+uint8_t Adafruit_LIS3DH::customRead(uint8_t readReg) {
+  Adafruit_BusIO_Register int_reg = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, readReg, 1);
+
+  return int_reg.read();
+}
+
+void Adafruit_LIS3DH::customWrite(uint8_t writeReg, uint8_t writeData) {
+  Adafruit_BusIO_Register _ctrl1 = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, writeReg, 1);
+  _ctrl1.write(writeData); 
 }
