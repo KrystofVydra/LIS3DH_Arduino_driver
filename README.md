@@ -1,4 +1,4 @@
-Added customRead(uint8_t readReg) and customWrite(uint8_t writeReg, uint8_t writeData) functions to the Adafruit_LIS3DH class. These allow for direct register access for both reading and writing, removing the constraints of interfacing only through adafruit implemented functions.
+*Added `customRead(uint8_t readReg)` and `customWrite(uint8_t writeReg, uint8_t writeData)` functions to the Adafruit_LIS3DH class. These allow for direct register access for both reading and writing, removing the constraints of interfacing only through adafruit implemented functions. Modified `read()` function for better performance and higher resolution support.*
 
 
 # Adafruit LIS3DH [![Build Status](https://github.com/adafruit/Adafruit_LIS3DH/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_LIS3DH/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_LIS3DH/html/index.html)
